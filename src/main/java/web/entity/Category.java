@@ -1,23 +1,20 @@
 package web.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
 
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter@Setter
 @Entity
 @Table(name = "category")
 public class Category {
     @Id
     @Column(name = "category_id")
-    private Long id;
+    private Byte id;
 
     @Column(length = 50)
     private String name;

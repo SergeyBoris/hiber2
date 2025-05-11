@@ -3,10 +3,14 @@ package web.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import javax.swing.text.IconView;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Year;
 import java.util.Set;
 
 @ToString
@@ -19,41 +23,45 @@ public class Film {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "film_id")
-    private Long filmId;
+    private Short filmId;
 
     @Column(nullable = false)
     private String title;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
+    @Type(type = "text")
     private String description;
 
-    @Column(name = "release_year")
-    private Integer releaseYear;
+    @Column(name = "release_year", columnDefinition = "year")
+    @Convert(converter = YearConverter.class)
+    private Year releaseYear;
 
     @OneToOne
     @JoinColumn(name = "language_id")
     private Language language;
 
     @Column(name = "original_language_id")
-    private Long originalLanguageId;
+    private Byte originalLanguageId;
 
     @Column(name = "rental_duration")
-    private Integer rentalDuration;
+    private Byte rentalDuration;
 
     @Column(name = "rental_rate")
-    private Double rentalRate;
+    private BigDecimal rentalRate;
 
     @Column
-    private Long length;
+    private Short length;
 
     @Column(name = "replacement_cost")
-    private Double replacementCost;
+    private BigDecimal replacementCost;
 
-    @Column
+
+    @Column(columnDefinition = "enum('G', 'PG', 'PG-13', 'R', 'NC-17')")
     @Convert(converter = RatingConverter.class)
     private Rating rating;
 
-    @Column(name = "special_features")
+
+    @Column(name = "special_features", columnDefinition = "set('Trailers', 'Commentaries', 'Deleted Scenes', 'Behind the Scenes')")
     private String specialFeatures;
 
     @Column(name = "last_update")
@@ -65,7 +73,6 @@ public class Film {
     @JoinTable(name = "film_category",
     joinColumns = @JoinColumn(name = "film_id",referencedColumnName = "film_id"),
     inverseJoinColumns = @JoinColumn(name = "category_id",referencedColumnName = "category_id"))
-
     private Set<Category> categories;
 
 

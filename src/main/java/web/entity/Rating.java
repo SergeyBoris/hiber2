@@ -15,11 +15,17 @@ public enum Rating {
         this.value = value;
     }
 
+    public String getValue() {
+        return value;
+    }
+
     public static Rating getRatingByValue(String value) {
         if(value == null || value.isEmpty()) return null;
         Rating[] values = Rating.values();
         for (Rating rating : values) {
-            if(rating.value.equals(value)) return rating;
+            if(rating.value.equals(value)) {
+                return rating;
+            }
         }
         return null;
     }
